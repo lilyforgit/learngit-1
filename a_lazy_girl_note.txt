@@ -1,0 +1,107 @@
+一．创建版本库
+mkdir learngit  创建目录
+cd learngit  进入目录
+pwd  查看路径
+git init 吧目录变成GIT可以管理的仓库
+git add xxx.txt 吧文件从工作区放入暂存区
+git commit –m “xxx” 吧文件从暂存区文件提交到分支
+二．	时光穿座机
+git status命令可以让我们时刻掌握仓库当前的状态，上面的命令告诉我们，readme.txt被修改过了，但还没有准备提交的修改。
+git diff顾名思义就是查看difference，显示的格式正是Unix通用的diff格式，可以从上面的命令输出看到，我们在第一行添加了一个“distributed”单词。
+三．	版本回退
+git log 最近提交日志
+git log –pretty=online 只要commit id
+git reset –hard HEAD 回退HEAD所指向的版本
+git reset –hard 121213回退commit id
+四．	工作区和暂存区
+要把文件放入暂存区 
+git commit –m “” 吧文件从暂存区提交到分支
+五．	撤销修改
+1.git checkout – readme.txt  在工作区是可以撤销修改
+2.git reset HEAD readme.txt  从暂存区回退到工作区 
+git checkout – readme.txt  在工作区是可以撤销修改
+六．	删除文件
+git rm test.txt
+git commit –m “remove test.txt”
+八．	创建与合并分支
+git checkout –b dev  创建并切换到dev分支
+git branch  查看分支
+git add readme.txt
+git commit –m “branch test”
+git checkout master 回到master分支
+git merge dev 吧指定分支合并到当前分支
+git branch –d dev 删除分支
+九．	解决冲突
+git checkout –b feature1 创建并切换到feature1
+git add readme.txt 
+git commit –m “AND simple”
+git checkout master 切换到master分支
+git add readme.txt
+git commit –m “& simple”
+git merge feature1 合并失败
+git status 查看一下状态
+cat readme.txt 发现有不同分支
+修改后 
+git add readme.txt 
+git commit –m “config fixed”
+git log –graph –pretty=online –abbrev-commit 查看分支合并情况
+十．	分支管理策略
+git checkout –b dev
+git add readme.txt
+git commit –m “add merge”
+git checkout master 切换回master
+git merge –no-ff –m “merge with no-ff” dev 合并分支 禁用fast forward 创建新的commit
+git log –graph –pretty=online –abbrev-commit 
+十一 . bug分支
+git stash 吧当前工作存起来
+git checkout master
+git checkout –b issue-101
+修改后
+git add readme.txt
+git commit –m “fix bug 101”
+git checkout master  切换到master
+git merge –no-ff –m “merge bug fix 101” issue-101 合并分支
+git branch –d issue-101  删除分支
+git checkout dev 
+git status 没有文件
+git stash list 查看
+git stash pop 恢复的同时把stash内容也删了
+十二 . feature分支
+git checkout –b feature-vulcan
+git add Vulcan.py
+git status
+git commit –m “add feature vulcan”
+git checkout dev
+合并
+//git branch –d feature-vulcan
+git branch –D feature-vulcan   丢弃一个没有被合并过的分支
+十三 . 多人协作
+git remote 查看远程库的信息
+git remote –v 更详细信息
+git push origin master 推送本地分支
+git push origin dev 推送其他分支
+git clone git@github.com:lilyforgit/learngit.git  克隆
+git checkout –b dev origin/dev 创建远程origin的dev分支到本地
+修改
+git commit –m “add/usr/bin/env”
+git push origin dev
+十四 . 创建标签
+git branch
+git checkout master 切换到要打标签的分支
+git tag v1.0 打上一个新的标签 默认标签是打在最新提交的commit上的
+git tag 查看标签
+找到历史commit id 可以给以前的打标签
+git log –pretty=online –abbrev-commit
+git tag v0.9 6224937
+git tag
+git show v0.9
+创建有说明的标签 –a指定标签名 –m指定说明文字
+git tag –a v0.1 –m “version 0.1 released” 3628164
+git tag –s v0.2 –m “signed version 0.2 released” fec145a 用私钥签名一个标签
+十五 . 操作标签
+git tag –d v0.1 删除标签
+git push origin v1.0 推送某个标签到远程
+git push origin –tags 一次性推送全部为推送到远程的本地标签
+删除远程标签
+git tag –d v0.9 先删除本地标签
+git push origin :refs/tags/v0.9 然后删除远程
